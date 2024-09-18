@@ -42,6 +42,15 @@ class Auth():
         return None
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
+        """_summary_
+
+        Args:
+            path (str): _description_
+            excluded_paths (List[str]): _description_
+
+        Returns:
+            bool: _description_
+        """
         if path is None:
             return True
 
