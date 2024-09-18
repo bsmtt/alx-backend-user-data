@@ -40,3 +40,15 @@ class Auth():
             _type_: _description_
         """
         return None
+
+    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
+        if path is None:
+            return True
+
+        if excluded_paths is None:
+            return True
+
+        if path not in excluded_paths:
+            return False
+
+        return True
