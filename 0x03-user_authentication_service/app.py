@@ -23,6 +23,11 @@ def home() -> str:
 
 @app.route('/users', methods=['POST'])
 def register_user() -> str:
+    """register
+
+    Returns:
+        str: json response
+    """
     email = request.form['email']
     pasword = request.form['password']
     try:
@@ -34,6 +39,11 @@ def register_user() -> str:
 
 @app.route("/sessions", methods=["POST"])
 def login() -> str:
+    """Login
+
+    Returns:
+        str: json response
+    """
     email = request.form['email']
     password = request.form['password']
     if not AUTH.valid_login(email, password):
@@ -48,6 +58,11 @@ def login() -> str:
 
 @app.route("/sessions", methods=["DELETE"])
 def logout() -> str:
+    """Logout
+
+    Returns:
+        str: json response
+    """
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
     if not user:
@@ -59,7 +74,11 @@ def logout() -> str:
 
 @app.route('/profile', methods=['GET'])
 def profile() -> str:
+    """get Profile
 
+    Returns:
+        str: json response
+    """
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
 
@@ -71,6 +90,11 @@ def profile() -> str:
 
 @app.route("/reset_password", methods=["POST"])
 def reset_password_token() -> str:
+    """return generated reset password token
+
+    Returns:
+        str: json response
+    """
     email = request.form.get("email")
     try:
         reset_token = AUTH.get_reset_password_token(email)
@@ -82,6 +106,11 @@ def reset_password_token() -> str:
 
 @app.route("/reset_password", methods=["PUT"])
 def reset_password() -> str:
+    """reset password
+
+    Returns:
+        str: json response
+    """
     email = request.form.get("email")
     new_password = request.form.get("new_password")
     reset_token = request.form.get("reset_token")
