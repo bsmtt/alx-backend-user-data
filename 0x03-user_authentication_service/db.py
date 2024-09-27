@@ -62,7 +62,7 @@ class DB:
         Returns:
             User: found user
         """
-        for attr in kwargs.items():
+        for attr, val in kwargs.items():
             if not hasattr(User, attr):
                 raise InvalidRequestError()
 
