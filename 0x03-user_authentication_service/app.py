@@ -19,3 +19,19 @@ def hello_world() -> str:
         str: son response
     """
     return jsonify({"message": "Bienvenue"})
+
+
+@app.route('/users', methods=['POST'])
+def register_user() -> str:
+    try:
+        email = request.form['email']
+        pasword = request.form['password']
+    except KeyError:
+        abort(400)
+
+    try:
+        user = AUTH.register_user(email, pasword)
+    except ValueError:
+        return jsonify({"message": "email already registered"}), 400
+
+    return jsonify({"message": "email already registered"})
