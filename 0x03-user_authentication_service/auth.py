@@ -25,6 +25,24 @@ class Auth:
         else:
             raise ValueError(f"User {email} already exists")
 
+    def valid_login(self, email: str, password: str) -> bool:
+        """validate login
+
+        Args:
+            email (str): user email
+            password (str): user password
+
+        Returns:
+            bool: user exists
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            return False
+        if not bcrypt.checkpw(password.encode(), user.hashed_password):
+            return False
+        return True
+
 
 def _hash_password(password: str) -> bytes:
     """ Creates password hash
@@ -35,25 +53,6 @@ def _hash_password(password: str) -> bytes:
     """
     pwd = password.encode()
     return bcrypt.hashpw(pwd, bcrypt.gensalt())
-
-
-def valid_login(self, email: str, password: str) -> bool:
-    """validate login
-
-    Args:
-        email (str): user email
-        password (str): user password
-
-    Returns:
-        bool: user exists
-    """
-    try:
-        user = self._db.find_user_by(email=email)
-    except NoResultFound:
-        return False
-    if not bcrypt.checkpw(password.encode(), user.hashed_password):
-        return False
-    return True
 
 
 def _generate_uuid() -> str:
