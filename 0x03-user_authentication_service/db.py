@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine,tuple_
+
+from sqlalchemy import create_engine, tuple_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -30,7 +31,7 @@ class DB:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
+
     def add_user(self, email: str, hashed_password: str) -> User:
         """Add new user
 
@@ -50,8 +51,7 @@ class DB:
             session.rollback()
             user = None
         return user
-    
-    
+
     def find_user_by(self, **kwargs) -> User:
         """find user
 
@@ -70,11 +70,13 @@ class DB:
             vals.append(val)
 
         session = self._session
-        user = session.query(User).where(tuple_(*attrs).in_([tuple(vals)])).first()
+        user = session.query(User).where(
+                    tuple_(*attrs).in_([tuple(vals)])
+                ).first()
         if not user:
             raise NoResultFound()
         return user
-    
+
     def update_user(self, user_id: int, **kwargs) -> None:
         """update db user
 
