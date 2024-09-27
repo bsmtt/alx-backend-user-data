@@ -62,17 +62,11 @@ class DB:
         Returns:
             User: found user
         """
-        attrs, vals = [], []
-        for attr, val in kwargs.items():
+        for attr in kwargs.items():
             if not hasattr(User, attr):
                 raise InvalidRequestError()
-            attrs.append(getattr(User, attr))
-            vals.append(val)
 
-        session = self._session
-        user = session.query(User).where(
-                    tuple_(*attrs).in_([tuple(vals)])
-                ).first()
+        user = self._session.query(User).filter_by(**kwargs).first()
         if not user:
             raise NoResultFound()
         return user
