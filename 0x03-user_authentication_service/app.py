@@ -12,7 +12,7 @@ AUTH = Auth()
 
 
 @app.route('/', methods=['GET'])
-def hello_world() -> str:
+def home() -> str:
     """base route
 
     Returns:
@@ -44,3 +44,26 @@ def login() -> str:
     response.set_cookie("session_id", session_id)
 
     return response
+
+
+@app.route("/sessions", methods=["DELETE"])
+def logout() -> str:
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if not user:
+        abort(403)
+    AUTH.destroy_session(user.id)
+
+    return redirect('/')
+
+
+@app.route('/profile', methods=['GET'])
+def profile() -> str:
+
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+
+    if not user:
+        abort(403)
+
+    return jsonify({"email": user.email}), 200
