@@ -15,9 +15,23 @@ class Auth:
     """
 
     def __init__(self):
+        """init
+        """
         self._db = DB()
 
     def register_user(self, email: str, password: str) -> User:
+        """register user
+
+        Args:
+            email (str): user email
+            password (str): user pass
+
+        Raises:
+            ValueError: already exist
+
+        Returns:
+            User: new user
+        """
         try:
             user = self._db.find_user_by(email=email)
         except NoResultFound:
