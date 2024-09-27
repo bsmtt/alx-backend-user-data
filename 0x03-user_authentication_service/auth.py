@@ -127,6 +127,9 @@ class Auth:
 
         Raises:
             ValueError: user not found
+
+        Returns:
+            None
         """
         try:
             user = self._db.find_user_by(reset_token=reset_token)
